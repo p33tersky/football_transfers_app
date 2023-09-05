@@ -3,6 +3,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springboot.football_transfers.DTO.PlayersByClubNameDTO;
 import springboot.football_transfers.DTO.PlayersTransfersDTO;
 import springboot.football_transfers.persistance.Player;
 import springboot.football_transfers.persistance.Transfer;
@@ -71,11 +72,11 @@ public class PlayerController {
         return ResponseEntity.ok(playerService.transferHistoryOfGivenPlayer(playerId));
     }
 
-    // NA POTEM
-//    @GetMapping("/fromClub") //?clubName=
-//    ResponseEntity<List<Player>> playersFromGivenClubByShortOfClubName(@RequestParam String clubName){
-//        return ResponseEntity.ok(playerService.findPlayersByShortTermOfClubName(clubName));
-//    }
+
+    @GetMapping("/fromClub") //?shortOfClubName=
+    ResponseEntity<List<PlayersByClubNameDTO>> playersFromGivenClubByShortOfClubName(@RequestParam String shortOfClubName){
+        return ResponseEntity.ok(playerService.findPlayersByShortTermOfClubName(shortOfClubName));
+    }
 
 //    @DeleteMapping("/remove/{playerId}/from/{clubId}")
 //    public void removeGivenPlayerFromGivenClub(@PathVariable Long playerId, @PathVariable Long clubId){

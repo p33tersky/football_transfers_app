@@ -2,6 +2,7 @@ package springboot.football_transfers.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import springboot.football_transfers.DTO.PlayersByClubNameDTO;
 import springboot.football_transfers.DTO.PlayersTransfersDTO;
 import springboot.football_transfers.persistance.Player;
 
@@ -9,13 +10,12 @@ import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    //NA POTEM
-//    @Query(value = "SELECT p.names, p.last_name, p.nationality, p.position " +
-//            "FROM football_club fc " +
-//            "JOIN football_club_players fcp ON fc.id = fcp.football_club_id " +
-//            "JOIN player p ON fcp.players_id = p.id " +
-//            "WHERE fc.short_term_of_club_name = ?1", nativeQuery = true)
-//    List<Player> findPlayersByClubName(String shortTermOfClubName);
+    @Query(value = "SELECT new springboot.football_transfers.DTO.PlayersByClubNameDTO(" +
+            "player.id, CONCAT(player.names,' ', player.lastName), fc.footballClubName, fc.id) " +
+            "FROM Player player " +
+            "JOIN FootballClub fc ON player.currentClubId = fc.id " +
+            "WHERE fc.shortTermOfClubName = ?1")
+    List<PlayersByClubNameDTO> findPlayersByClubName(String shortTermOfClubName);
 
 
     @Query("SELECT new springboot.football_transfers.DTO.PlayersTransfersDTO(" +

@@ -3,11 +3,9 @@ package springboot.football_transfers.service;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.condition.DisabledIf;
 import org.springframework.stereotype.Service;
+import springboot.football_transfers.DTO.PlayersByClubNameDTO;
 import springboot.football_transfers.DTO.PlayersTransfersDTO;
-import springboot.football_transfers.exceptions.PlayerAlreadyHasAClubException;
-import springboot.football_transfers.exceptions.PlayerIsNotInAnyClubException;
-import springboot.football_transfers.exceptions.PlayerIsNotInGivenClubException;
-import springboot.football_transfers.exceptions.PlayerNotFoundException;
+import springboot.football_transfers.exceptions.*;
 import springboot.football_transfers.persistance.FootballClub;
 import springboot.football_transfers.persistance.Player;
 import springboot.football_transfers.persistance.Transfer;
@@ -52,10 +50,12 @@ public class PlayerService {
         footballClubService.save(club);
     }
 
-    //NA POTEM
-//    public List<Player> findPlayersByShortTermOfClubName(String name){
-//        return playerRepository.findPlayersByClubName(name);
-//    }
+    public List<PlayersByClubNameDTO> findPlayersByShortTermOfClubName(String shortTermOfClubName){
+        if (shortTermOfClubName.length() !=3 ){
+            throw new ShortTermNotValidException("Short term has three signs");
+        }
+        return playerRepository.findPlayersByClubName(shortTermOfClubName);
+    }
 
     public List<Player> saveAll(List<Player> players) {
         return playerRepository.saveAll(players);
