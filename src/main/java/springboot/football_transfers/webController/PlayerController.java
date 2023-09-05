@@ -1,4 +1,5 @@
 package springboot.football_transfers.webController;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +22,17 @@ public class PlayerController {
     private final FootballClubService footballClubService;
 
     @GetMapping("/{id}")
-    ResponseEntity<Player> getId(@PathVariable Long id){
+    ResponseEntity<Player> getId(@PathVariable Long id) {
         return ResponseEntity.ok(playerService.findById(id));
     }
 
     @GetMapping
-    ResponseEntity<List<Player>>getAll(){
+    ResponseEntity<List<Player>> getAll() {
         return ResponseEntity.ok(playerService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<Player> save(@RequestBody Player player){
+    public ResponseEntity<Player> save(@RequestBody Player player) {
         return ResponseEntity.ok(playerService.save(player));
     }
 
@@ -41,55 +42,48 @@ public class PlayerController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         playerService.deleteById(id);
     }
 
     @DeleteMapping("/deleteAll")
-    public void deleteAll(){
+    public void deleteAll() {
         playerService.deleteAll();
     }
 
     @PostMapping("{clubId}/newPlayer/{playerId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void addPlayerToClubIfHeIsNotInAny(@PathVariable Long clubId, @PathVariable Long playerId){
+    public void addPlayerToClubIfHeIsNotInAny(@PathVariable Long clubId, @PathVariable Long playerId) {
         playerService.addPlayerToClubIfHeIsNotInAny(clubId, playerId);
     }
 
-//    @PostMapping("playerToClub/{clubId}")
-//    @ResponseStatus(value = HttpStatus.OK)
-//    public void addPlayerToClubAnytime(@RequestBody Player player, @PathVariable Long clubId){
-//        playerService.savePlayerInGivenClub(player,footballClubService.findById(clubId));
-//    }
 
     @PostMapping("/FIRE/{playerId}")
-    public void fire(@PathVariable Long playerId){
+    public void fire(@PathVariable Long playerId) {
         playerService.firePlayer(playerId);
     }
 
     @GetMapping("transferHistory/{playerId}")
-    ResponseEntity<List<Transfer>> transferHistoryOfGivenPlayer(@PathVariable Long playerId){
+    ResponseEntity<List<Transfer>> transferHistoryOfGivenPlayer(@PathVariable Long playerId) {
         return ResponseEntity.ok(playerService.transferHistoryOfGivenPlayer(playerId));
     }
 
 
-    @GetMapping("/fromClub") //?shortOfClubName=
-    ResponseEntity<List<PlayersByClubNameDTO>> playersFromGivenClubByShortOfClubName(@RequestParam String shortOfClubName){
+    @GetMapping("/fromClub")
+        //?shortOfClubName=
+    ResponseEntity<List<PlayersByClubNameDTO>> playersFromGivenClubByShortOfClubName(@RequestParam String shortOfClubName) {
         return ResponseEntity.ok(playerService.findPlayersByShortTermOfClubName(shortOfClubName));
     }
 
-//    @DeleteMapping("/remove/{playerId}/from/{clubId}")
-//    public void removeGivenPlayerFromGivenClub(@PathVariable Long playerId, @PathVariable Long clubId){
-//        playerService.removeGivenPlayerFromGivenClub(playerId, clubId);
-//    }
 
     @GetMapping("/transfers/all")
-    ResponseEntity<List<PlayersTransfersDTO>> getPlayerAndTheirTransfers(){
+    ResponseEntity<List<PlayersTransfersDTO>> getPlayerAndTheirTransfers() {
         return ResponseEntity.ok(playerService.getPlayersAndTheirTransfers());
     }
 
-    @GetMapping("/transfers/")//?playerId=
-    ResponseEntity<List<PlayersTransfersDTO>> getEveryTransferOfGivenPlayer(@RequestParam Long playerId){
+    @GetMapping("/transfers/")
+//?playerId=
+    ResponseEntity<List<PlayersTransfersDTO>> getEveryTransferOfGivenPlayer(@RequestParam Long playerId) {
         return ResponseEntity.ok(playerService.getEveryTransferOfGivenPlayer(playerId));
     }
 }

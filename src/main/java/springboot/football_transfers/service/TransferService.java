@@ -23,8 +23,6 @@ public class TransferService {
     private final FootballClubService footballClubService;
 
 
-
-
     public Transfer findById(Long transferId) {
         return transferRepository.findById(transferId).orElseThrow(() -> new TransferNotFoundException("Transfer was not found"));
     }
@@ -37,11 +35,11 @@ public class TransferService {
         transferRepository.deleteById(transferId);
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         transferRepository.deleteAll();
     }
 
-    public void clearWholeTransferHistoryFromEveryEntity(List<FootballClub> clubs, List<Player> players){
+    public void clearWholeTransferHistoryFromEveryEntity(List<FootballClub> clubs, List<Player> players) {
         for (FootballClub club : clubs) {
 //            club.setTransfersHistory(new ArrayList<>());
             club.setPlayers(new ArrayList<>());
@@ -54,28 +52,15 @@ public class TransferService {
         deleteAll();
     }
 
-    public void saveTransferInPlayerTransferHistoryList(Player player, Transfer transfer){
+    public void saveTransferInPlayerTransferHistoryList(Player player, Transfer transfer) {
         player.getTransferHistory().add(transfer);
         playerService.save(player);
     }
 
-//    public void saveTransferInClubTransferHistoryList(Long clubId, Long transferId){
-//        FootballClub club = footballClubService.findById(clubId);
-//        Transfer transfer = findById(transferId);
-//        club.getTransfersHistory().add(transfer);
-//        footballClubService.save(club);
-//    }
-
-//    public void saveTransferInOtherEntities(Long clubBuyingId, Long clubSellingId, Long playerId, Long transferId){
-//        saveTransferInClubTransferHistoryList(clubBuyingId,transferId);
-//        saveTransferInClubTransferHistoryList(clubSellingId,transferId);
-//        saveTransferInPlayerTransferHistoryList(playerId,transferId);
-//    }
-
 
     @Transactional
     public Transfer save(Long playerToTransferId, Long clubSellingId, Long clubBuyingId, Double transactionAmountInUSD) {
-        playerService.throwExceptionIfPlayerIsNotInGivenClub(playerToTransferId,clubSellingId);
+        playerService.throwExceptionIfPlayerIsNotInGivenClub(playerToTransferId, clubSellingId);
 
         Player playerToTransfer = playerService.findById(playerToTransferId);
 
@@ -85,22 +70,17 @@ public class TransferService {
         transfer.setPlayerBeingSoldId(playerToTransferId);
 
         transfer.setClubSellingId(clubSellingId);
-        playerService.removeGivenPlayerFromGivenClub(playerToTransferId,clubSellingId);
+        playerService.removeGivenPlayerFromGivenClub(playerToTransferId, clubSellingId);
 
         transfer.setClubBuyingId(clubBuyingId);
         playerService.savePlayerInGivenClub(playerService.findById(playerToTransferId), footballClubService.findById(clubBuyingId));
 
         Transfer savedTransfer = transferRepository.save(transfer);
 
-//        saveTransferInOtherEntities(clubBuyingId,clubSellingId,playerToTransferId,savedTransfer.getId());
-        saveTransferInPlayerTransferHistoryList(playerToTransfer,savedTransfer);
+        saveTransferInPlayerTransferHistoryList(playerToTransfer, savedTransfer);
 
         return savedTransfer;
     }
-
-
-
-
 
 
 }

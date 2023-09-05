@@ -1,4 +1,5 @@
 package springboot.football_transfers.persistance;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

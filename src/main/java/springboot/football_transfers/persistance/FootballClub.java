@@ -25,7 +25,7 @@ public class FootballClub {
     private String footballClubName;
 
     @Size(min = 2, max = 3)
-    private  String shortTermOfClubName;
+    private String shortTermOfClubName;
 
     @OneToMany
     private List<Player> players;

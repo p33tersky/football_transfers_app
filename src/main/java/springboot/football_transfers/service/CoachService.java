@@ -34,7 +34,7 @@ public class CoachService {
         return coachRepository.saveAll(coaches);
     }
 
-    public List<Coach> getCoachesByNationality(String nationality){
+    public List<Coach> getCoachesByNationality(String nationality) {
         return coachRepository.findByNationality(nationality);
     }
 

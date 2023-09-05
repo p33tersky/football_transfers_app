@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.football_transfers.DTO.ClubWithCoachNameDTO;
 import springboot.football_transfers.DTO.ClubWithTheirExpensesOnGivenYearDTO;
-import springboot.football_transfers.persistance.Coach;
 import springboot.football_transfers.persistance.FootballClub;
 import springboot.football_transfers.service.FootballClubService;
-import springboot.football_transfers.service.TransferService;
 
 import java.util.List;
 
@@ -37,8 +35,8 @@ public class FootballClubController {
 
     @PostMapping("/{clubId}/newCoach/{coachId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void getNewCoach(@PathVariable Long clubId, @PathVariable Long coachId){
-        footballClubService.getNewCoach(clubId,coachId);
+    public void getNewCoach(@PathVariable Long clubId, @PathVariable Long coachId) {
+        footballClubService.getNewCoach(clubId, coachId);
     }
 
 
@@ -53,15 +51,14 @@ public class FootballClubController {
     }
 
     @GetMapping("/coaches")
-    public ResponseEntity<List<ClubWithCoachNameDTO>>getClubsWithCoachesFullNames(){
+    public ResponseEntity<List<ClubWithCoachNameDTO>> getClubsWithCoachesFullNames() {
         return ResponseEntity.ok(footballClubService.getClubsWithCoachesFullNames());
     }
 
     @GetMapping("/expenses")//?year=
-    public ResponseEntity<List<ClubWithTheirExpensesOnGivenYearDTO>>getClubsWithTheirExpensesOnGivenYear(@RequestParam int year){
+    public ResponseEntity<List<ClubWithTheirExpensesOnGivenYearDTO>> getClubsWithTheirExpensesOnGivenYear(@RequestParam int year) {
         return ResponseEntity.ok(footballClubService.getClubsWithTheirEarlyExpenses(year));
     }
-
 
 
 }

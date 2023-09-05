@@ -28,5 +28,4 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     List<PlayersTransfersDTO> getPlayersTransfers();
 
 
-
 }

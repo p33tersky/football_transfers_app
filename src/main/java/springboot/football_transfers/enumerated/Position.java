@@ -1,6 +1,7 @@
 package springboot.football_transfers.enumerated;
 
 import lombok.AllArgsConstructor;
+
 @AllArgsConstructor
 public enum Position {
 

@@ -9,14 +9,10 @@ import springboot.football_transfers.exceptions.FootballClubNotFoundException;
 import springboot.football_transfers.exceptions.YearNotValidException;
 import springboot.football_transfers.persistance.Coach;
 import springboot.football_transfers.persistance.FootballClub;
-import springboot.football_transfers.persistance.Player;
-import springboot.football_transfers.repository.*;
+import springboot.football_transfers.repository.FootballClubRepository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,9 +42,10 @@ public class FootballClubService {
         return footballClubRepository.saveAll(footballClubs);
     }
 
-    boolean isGivenCoachLeadingAnyClub(Coach coach){
+    boolean isGivenCoachLeadingAnyClub(Coach coach) {
         return !(coach.getCoachesClubId() == null);
     }
+
     public void getNewCoach(Long footballClubId, Long coachId) {
 
         FootballClub clubTryingToHireNewCoach = findById(footballClubId);
@@ -59,9 +56,9 @@ public class FootballClubService {
 
         String coachName = newCoach.getNames() + " " + newCoach.getLastName();
 
-        if (isGivenCoachLeadingAnyClub(newCoach)){
+        if (isGivenCoachLeadingAnyClub(newCoach)) {
             String coachClubsName = findById(newCoach.getCoachesClubId()).getFootballClubName();
-            throw new CoachAlreadyLeadsATeamException(coachName + " already leads a club " + coachClubsName +"!" );
+            throw new CoachAlreadyLeadsATeamException(coachName + " already leads a club " + coachClubsName + "!");
         }
 
         oldCoach.setCoachesClubId(null);
@@ -72,13 +69,13 @@ public class FootballClubService {
         save(clubTryingToHireNewCoach);
     }
 
-    public List<ClubWithCoachNameDTO>getClubsWithCoachesFullNames(){
+    public List<ClubWithCoachNameDTO> getClubsWithCoachesFullNames() {
         return footballClubRepository.getClubsWithCoachesFullNames();
     }
 
-    public List<ClubWithTheirExpensesOnGivenYearDTO> getClubsWithTheirEarlyExpenses(int year){
+    public List<ClubWithTheirExpensesOnGivenYearDTO> getClubsWithTheirEarlyExpenses(int year) {
         LocalDate today = LocalDate.now();
-        if (year<1950 || year>today.getYear()){
+        if (year < 1950 || year > today.getYear()) {
             throw new YearNotValidException("Returning clubs expenses on given year is not possible");
         }
         return footballClubRepository.getClubsWithEarlyExpenses(year);

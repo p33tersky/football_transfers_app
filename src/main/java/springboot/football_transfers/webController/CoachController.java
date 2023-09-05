@@ -15,22 +15,22 @@ public class CoachController {
     private final CoachService coachService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Coach> getId(@PathVariable Long id){
+    public ResponseEntity<Coach> getId(@PathVariable Long id) {
         return ResponseEntity.ok(coachService.findById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Coach>>getAll(){
+    public ResponseEntity<List<Coach>> getAll() {
         return ResponseEntity.ok(coachService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<Coach> save(@RequestBody Coach coach){
+    public ResponseEntity<Coach> save(@RequestBody Coach coach) {
         return ResponseEntity.ok(coachService.save(coach));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         coachService.deleteById(id);
     }
 
@@ -40,7 +40,7 @@ public class CoachController {
     }
 
     @GetMapping("/nation/{nationality}")
-    public ResponseEntity<List<Coach>> findCoachesByNationality(@PathVariable String nationality){
+    public ResponseEntity<List<Coach>> findCoachesByNationality(@PathVariable String nationality) {
         return ResponseEntity.ok(coachService.getCoachesByNationality(nationality));
     }
 }
