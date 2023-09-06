@@ -57,7 +57,6 @@ public class PlayerController {
         playerService.addPlayerToClubIfHeIsNotInAny(clubId, playerId);
     }
 
-
     @PostMapping("/FIRE/{playerId}")
     public void fire(@PathVariable Long playerId) {
         playerService.firePlayer(playerId);
@@ -68,21 +67,17 @@ public class PlayerController {
         return ResponseEntity.ok(playerService.transferHistoryOfGivenPlayer(playerId));
     }
 
-
-    @GetMapping("/fromClub")
-        //?shortOfClubName=
+    @GetMapping("/fromClub")//?shortOfClubName=
     ResponseEntity<List<PlayersByClubNameDTO>> playersFromGivenClubByShortOfClubName(@RequestParam String shortOfClubName) {
         return ResponseEntity.ok(playerService.findPlayersByShortTermOfClubName(shortOfClubName));
     }
 
-
     @GetMapping("/transfers/all")
-    ResponseEntity<List<PlayersTransfersDTO>> getPlayerAndTheirTransfers() {
+    ResponseEntity<List<PlayersTransfersDTO>> getPlayersAndTheirTransfers() {
         return ResponseEntity.ok(playerService.getPlayersAndTheirTransfers());
     }
 
-    @GetMapping("/transfers/")
-//?playerId=
+    @GetMapping("/transfers")//?playerId=
     ResponseEntity<List<PlayersTransfersDTO>> getEveryTransferOfGivenPlayer(@RequestParam Long playerId) {
         return ResponseEntity.ok(playerService.getEveryTransferOfGivenPlayer(playerId));
     }

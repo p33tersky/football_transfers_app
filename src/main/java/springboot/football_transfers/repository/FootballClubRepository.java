@@ -20,7 +20,7 @@ public interface FootballClubRepository extends JpaRepository<FootballClub, Long
     List<ClubWithCoachNameDTO> getClubsWithCoachesFullNames();
 
     @Query("SELECT new springboot.football_transfers.DTO.ClubWithTheirExpensesOnGivenYearDTO( " +
-            "club.footballClubName, COALESCE(SUM(transfer.transactionAmountInUSD), 0.0)) " +
+            "club.id, club.footballClubName, COALESCE(SUM(transfer.transactionAmountInUSD), 0.0)) " +
             " FROM FootballClub club" +
             " LEFT JOIN Transfer transfer" +
             " ON club.id = transfer.clubBuyingId" +

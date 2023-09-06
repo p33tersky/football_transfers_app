@@ -21,7 +21,6 @@ public class FootballClubService {
     private final FootballClubRepository footballClubRepository;
     private final CoachService coachService;
 
-
     public FootballClub findById(Long footballClubId) {
         return footballClubRepository.findById(footballClubId).orElseThrow(() -> new FootballClubNotFoundException("Club was not found"));
     }
@@ -46,13 +45,11 @@ public class FootballClubService {
         return !(coach.getCoachesClubId() == null);
     }
 
-    public void getNewCoach(Long footballClubId, Long coachId) {
+    public void hireNewCoach(Long footballClubId, Long coachId) {
 
         FootballClub clubTryingToHireNewCoach = findById(footballClubId);
-
         Coach oldCoach = clubTryingToHireNewCoach.getCoach();
         Coach newCoach = coachService.findById(coachId);
-
 
         String coachName = newCoach.getNames() + " " + newCoach.getLastName();
 

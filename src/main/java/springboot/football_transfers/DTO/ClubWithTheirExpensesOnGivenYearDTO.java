@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ClubWithTheirExpensesOnGivenYearDTO {
 
+    private Long clubId;
     private String footballClubName;
     private Double yearlyExpense;
 }

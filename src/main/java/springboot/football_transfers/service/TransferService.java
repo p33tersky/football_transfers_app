@@ -41,7 +41,6 @@ public class TransferService {
 
     public void clearWholeTransferHistoryFromEveryEntity(List<FootballClub> clubs, List<Player> players) {
         for (FootballClub club : clubs) {
-//            club.setTransfersHistory(new ArrayList<>());
             club.setPlayers(new ArrayList<>());
         }
         for (Player player : players) {
@@ -58,14 +57,9 @@ public class TransferService {
     }
 
 
-    @Transactional
-    public Transfer save(Long playerToTransferId, Long clubSellingId, Long clubBuyingId, Double transactionAmountInUSD) {
-        playerService.throwExceptionIfPlayerIsNotInGivenClub(playerToTransferId, clubSellingId);
-
-        Player playerToTransfer = playerService.findById(playerToTransferId);
-
-        Transfer transfer = new Transfer();
-        transfer.setDateOfTransfer(LocalDate.now());
+    public void setUpTransfer(Transfer transfer, Long playerToTransferId, Long clubSellingId, Long clubBuyingId,
+                              LocalDate localDate, Double transactionAmountInUSD) {
+        transfer.setDateOfTransfer(localDate);
         transfer.setTransactionAmountInUSD(transactionAmountInUSD);
         transfer.setPlayerBeingSoldId(playerToTransferId);
 
@@ -74,11 +68,20 @@ public class TransferService {
 
         transfer.setClubBuyingId(clubBuyingId);
         playerService.savePlayerInGivenClub(playerService.findById(playerToTransferId), footballClubService.findById(clubBuyingId));
+    }
 
-        Transfer savedTransfer = transferRepository.save(transfer);
+    public Transfer returnSetUppedTransfer(Long playerToTransferId, Long clubSellingId, Long clubBuyingId, Double transactionAmountInUSD) {
+        Transfer transfer = new Transfer();
+        setUpTransfer(transfer, playerToTransferId, clubSellingId, clubBuyingId, LocalDate.now(), transactionAmountInUSD);
+        return transferRepository.save(transfer);
+    }
 
+    @Transactional
+    public Transfer save(Long playerToTransferId, Long clubSellingId, Long clubBuyingId, Double transactionAmountInUSD) {
+        playerService.throwExceptionIfPlayerIsNotInGivenClub(playerToTransferId, clubSellingId);
+        Player playerToTransfer = playerService.findById(playerToTransferId);
+        Transfer savedTransfer = returnSetUppedTransfer(playerToTransferId, clubSellingId, clubBuyingId, transactionAmountInUSD);
         saveTransferInPlayerTransferHistoryList(playerToTransfer, savedTransfer);
-
         return savedTransfer;
     }
 

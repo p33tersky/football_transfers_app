@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("/transfers")
 public class TransferController {
 
-
     private final TransferService transferService;
     private final FootballClubService footballClubService;
     private final PlayerService playerService;
@@ -30,17 +29,10 @@ public class TransferController {
         return ResponseEntity.ok(transferService.findAll());
     }
 
-
     @PostMapping("makeTransferOf/{playerId}/from/{clubSellingId}/to/{clubBuyingId}/cost/{amount}")
     public ResponseEntity<Transfer> save(@PathVariable Long playerId, @PathVariable Long clubSellingId, @PathVariable Long clubBuyingId, @PathVariable Double amount) {
         return ResponseEntity.ok(transferService.save(playerId, clubSellingId, clubBuyingId, amount));
     }
-
-//    @PostMapping("transfer/{transferId}/toClub/{clubId}")
-//    public void saveTransferInClubTransferHistoryList(@PathVariable Long transferId, @PathVariable Long clubId){
-//        transferService.saveTransferInClubTransferHistoryList(clubId,transferId);
-//    }
-
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

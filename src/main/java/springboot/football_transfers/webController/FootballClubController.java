@@ -36,9 +36,8 @@ public class FootballClubController {
     @PostMapping("/{clubId}/newCoach/{coachId}")
     @ResponseStatus(value = HttpStatus.OK)
     public void getNewCoach(@PathVariable Long clubId, @PathVariable Long coachId) {
-        footballClubService.getNewCoach(clubId, coachId);
+        footballClubService.hireNewCoach(clubId, coachId);
     }
-
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
